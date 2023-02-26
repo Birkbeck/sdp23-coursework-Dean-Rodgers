@@ -2,6 +2,7 @@ package sml;
 
 // TODO: write a JavaDoc for the class
 
+
 /**
  * Represents an abstract instruction.
  *
@@ -42,16 +43,22 @@ public abstract class Instruction {
 	 *          the instruction with the next address is to be executed
 	 */
 
-	public abstract int execute(Machine machine);
+	public abstract int execute(Machine git);
 
 	protected String getLabelString() {
 		return (getLabel() == null) ? "" : getLabel() + ": ";
 	}
 
 	// TODO: What does abstract in the declaration below mean?
-	//       (Write a short explanation.)
+	// the abstract method below acts as a placeholder to be implemented in the subclasses
 	@Override
 	public abstract String toString();
 
 	// TODO: Make sure that subclasses also implement equals and hashCode (needed in class Machine).
+
+	@Override
+	public abstract boolean equals(Object o);
+
+	@Override
+	public abstract int hashCode();
 }
