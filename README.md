@@ -21,7 +21,7 @@ amongst other skills.
 
 **Name**: Dean Rodgers
 
-**Your userid**: e.g., drodge02
+**Your userid**: drodge02
 
 Please do not forget to complete this part as too often we have "orphaned" repositories,
 which can require months to sort out.

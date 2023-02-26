@@ -3,12 +3,15 @@ package sml;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 // TODO: write a JavaDoc for the class
 
 /**
- *
- * @author ...
+ * Represents an identifier for an instruction.
+ *</p>
+ * The identifier is optional in an instruction line.
  */
 public final class Labels {
 	private final Map<String, Integer> labels = new HashMap<>();
@@ -19,10 +22,14 @@ public final class Labels {
 	 * @param label the label
 	 * @param address the address the label refers to
 	 */
-	public void addLabel(String label, int address) {
-		Objects.requireNonNull(label);
+	public void addLabel(String label, int address) throws NullPointerException, IllegalArgumentException {
+		Objects.requireNonNull(label, "Null not allowed");
 		// TODO: Add a check that there are no label duplicates.
-		labels.put(label, address);
+		if (labels.containsKey(label)) {
+			throw new IllegalArgumentException("Duplicate label found: " + label + ". " + "Check input file.");
+		} else {
+			labels.put(label, address);
+		}
 	}
 
 	/**
@@ -31,11 +38,16 @@ public final class Labels {
 	 * @param label the label
 	 * @return the address the label refers to
 	 */
-	public int getAddress(String label) {
+	public int getAddress(String label) throws IllegalArgumentException {
 		// TODO: Where can NullPointerException be thrown here?
 		//       (Write an explanation.)
-		//       Add code to deal with non-existent labels.
-		return labels.get(label);
+		// A NullPointerException can occur if specified key is null and map does not permit null keys (see addLabel method)
+		// Add code to deal with non-existent labels.
+		if (label == null) {
+			throw new IllegalArgumentException("Label is null");
+		} else {
+			return labels.get(label);
+		}
 	}
 
 	/**
@@ -47,10 +59,28 @@ public final class Labels {
 	@Override
 	public String toString() {
 		// TODO: Implement the method using the Stream API (see also class Registers).
-		return "";
+		return labels.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey())
+				.map(e -> e.getKey() + " = " + e.getValue())
+				.collect(Collectors.joining(", ", "[", "]")) ;
 	}
 
 	// TODO: Implement equals and hashCode (needed in class Machine).
+
+
+	@Override
+	public boolean equals(Object o) {
+
+		if (o instanceof Labels other) {
+			return labels.equals(other.labels);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(labels);
+	}
 
 	/**
 	 * Removes the labels

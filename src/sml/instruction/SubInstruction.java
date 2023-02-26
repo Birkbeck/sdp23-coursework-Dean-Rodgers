@@ -8,7 +8,8 @@ import java.util.Objects;
 
 
 /**
- * Representation of the subtraction for SML.
+ * Representation of the subtraction arithmetic for SML.
+ * <p>
  * In this instruction the OP_CODE is represented by "sub".
  */
 public class SubInstruction extends Instruction {
@@ -18,12 +19,12 @@ public class SubInstruction extends Instruction {
 
     public static final String OP_CODE = "sub";
 
-
     /**
      * Creates a new SubInstruction.
-     * Together label, result and source provide all the information for this instruction.
-     *
-     * @param label creates a name for the arthritic function. This is an optional parameter.
+     * label provides an optional name for the instruction. result and source are registers in the machine memory.
+     * In SML, the registers are represented as String variables.
+     * </p>
+     * @param label creates a name for the arithmetic instruction. This is an optional parameter.
      * @param result creates operand for a register. Result of instruction of stored in this register.
      * @param source creates operand for a register.
      */
@@ -34,9 +35,10 @@ public class SubInstruction extends Instruction {
     }
 
     /**
-     *
-     * @param m
-     * @return
+     * Executes the subtraction arithmetic operation. Stores the result of this operation in the given register.
+     * </p>
+     * @param m the machine i.e. the context where the instruction is run.
+     * @return resets NORMAL_PROGRAM_COUNTER_UPDATE after the instruction has executed.
      */
     @Override
     public int execute(Machine m) {
