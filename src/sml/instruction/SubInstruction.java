@@ -8,7 +8,7 @@ import java.util.Objects;
 
 
 /**
- * Representation of the subtraction arithmetic for SML.
+ * Representation of the subtraction arithmetic.
  * <p>
  * In this instruction the OP_CODE is represented by "sub".
  */

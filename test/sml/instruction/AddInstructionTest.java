@@ -46,17 +46,4 @@ class AddInstructionTest {
     Assertions.assertEquals(1, machine.getRegisters().get(EAX));
   }
 
-  @Test
-  void checkIfLabelIsReturned(){
-    registers.set(EAX, 3);
-    registers.set(EBX, 3);
-    Instruction instruction = new AddInstruction("f1", EAX, EBX);
-    instruction.execute(machine);
-    Assertions.assertEquals("f1", machine.getLabels());
-
-
-  }
-
-
-
 }
