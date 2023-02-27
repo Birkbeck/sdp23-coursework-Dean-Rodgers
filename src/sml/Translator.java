@@ -40,6 +40,7 @@ public final class Translator {
             // Each iteration processes line and reads the next input line into "line"
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
+                System.out.println(line);
                 String label = getLabel();
 
                 Instruction instruction = getInstruction(label);
@@ -72,6 +73,17 @@ public final class Translator {
                 String s = scan();
                 return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
             }
+            case SubInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new SubInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            }
+            case MovInstruction.OP_CODE -> {
+                String r = scan();
+                String value = scan();
+                return new MovInstruction(label, Register.valueOf(r), Integer.valueOf(value));
+            }
+
 
             // TODO: add code for all other types of instructions
 
