@@ -93,7 +93,15 @@ public final class Translator {
                 String value = scan();
                 return new MovInstruction(label, Register.valueOf(r), Integer.valueOf(value));
             }
-
+            case OutInstruction.OP_CODE -> {
+                String s = scan();
+                return new OutInstruction(label, Register.valueOf(s));
+            }
+            case JnzInstruction.OP_CODE -> {
+                String s = scan();
+                String jumpLabel = scan();
+                return new JnzInstruction(label, Register.valueOf(s), jumpLabel);
+            }
 
             // TODO: add code for all other types of instructions
 

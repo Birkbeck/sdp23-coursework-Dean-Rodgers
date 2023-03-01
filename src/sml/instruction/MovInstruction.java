@@ -26,7 +26,7 @@ public class MovInstruction extends Instruction {
      * @param result creates operand for a register. Name of the register.
      * @param value creates value to be stored.
      */
-    public MovInstruction(String label, RegisterName result, Integer value){
+    public MovInstruction(String label, RegisterName result, Integer value) {
         super(label, OP_CODE);
         this.result = result;
         this.value = value;
