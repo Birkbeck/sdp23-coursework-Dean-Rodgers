@@ -10,7 +10,6 @@ import sml.Machine;
 import sml.Registers;
 
 import static sml.Registers.Register.EAX;
-import static sml.Registers.Register.EBX;
 
 public class JnzInstructionTest {
     private Machine machine;
@@ -31,14 +30,13 @@ public class JnzInstructionTest {
 
     @Test
     void executeValid() {
-        Labels labels = new Labels();
+        Labels labels = machine.getLabels();
         labels.addLabel("f3",3);
         registers.set(EAX, 6);
-        Instruction instruction = new JnzInstruction(null, EAX, "");
+        Instruction instruction = new JnzInstruction(null, EAX, "f3");
         int returnValue = instruction.execute(machine);
         Assertions.assertEquals(3, returnValue);
     }
-
 
 
 }
