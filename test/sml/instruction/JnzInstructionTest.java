@@ -51,14 +51,13 @@ public class JnzInstructionTest {
         Assertions.assertEquals(-1, returnValue);
     }
 
-
     @Test
-    // expected number of instructions executed in the .sml file is X
+    // expected number of instructions executed in the .sml file is 22
     // which calculates the factorial of six
     void countTheTotalNumberOfInstructionsInJumpProgram()  {
         int totalNumberOfInstructionsExecuted = 0;
         try {
-            Translator t = new Translator("test/data/sml.txt");
+            Translator t = new Translator("test/data/factorial6.sml");
             t.readAndTranslate(machine.getLabels(), machine.getProgram());
         } catch (IOException e) {
             System.out.println(e);

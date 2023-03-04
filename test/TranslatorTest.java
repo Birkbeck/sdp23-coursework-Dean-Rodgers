@@ -18,7 +18,7 @@ public class TranslatorTest {
     @BeforeEach
     void setUp() {
         labels = new Labels();
-        filename = "test/data/sml.txt";
+        filename = "test/data/factorial6.sml";
         translator = new Translator(filename);
         registers = new Registers();
         machine = new Machine(registers);
