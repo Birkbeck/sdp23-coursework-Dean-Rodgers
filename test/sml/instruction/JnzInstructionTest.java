@@ -4,13 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sml.Instruction;
-import sml.Labels;
-import sml.Machine;
-import sml.Registers;
+import sml.*;
 
 import java.io.IOException;
+import java.util.List;
 
+import static sml.Instruction.NORMAL_PROGRAM_COUNTER_UPDATE;
 import static sml.Registers.Register.EAX;
 
 public class JnzInstructionTest {
@@ -52,9 +51,32 @@ public class JnzInstructionTest {
         Assertions.assertEquals(-1, returnValue);
     }
 
+
     @Test
-    void countTheTotalNumberOfInstructionsInJumpProgram() throws IOException {
-        System.out.println();
+    // expected number of instructions executed in the .sml file is X
+    // which calculates the factorial of six
+    void countTheTotalNumberOfInstructionsInJumpProgram()  {
+        int totalNumberOfInstructionsExecuted = 0;
+        try {
+            Translator t = new Translator("test/data/sml.txt");
+            t.readAndTranslate(machine.getLabels(), machine.getProgram());
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        List<Instruction> program = machine.getProgram();
+        int programCounter = 0;
+        registers.clear();
+        while (programCounter < program.size()) {
+            Instruction ins = program.get(programCounter);
+            int programCounterUpdate = ins.execute(machine);
+            totalNumberOfInstructionsExecuted ++;
+            programCounter = (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE)
+                    ? programCounter + 1
+                    : programCounterUpdate;
+        }
+
+        Assertions.assertEquals(22, totalNumberOfInstructionsExecuted);
     }
 
 
