@@ -9,6 +9,8 @@ import sml.Labels;
 import sml.Machine;
 import sml.Registers;
 
+import java.io.IOException;
+
 import static sml.Registers.Register.EAX;
 
 public class JnzInstructionTest {
@@ -29,13 +31,30 @@ public class JnzInstructionTest {
     }
 
     @Test
-    void executeValid() {
+    void returnCorrectJumpInstructionNumber() {
         Labels labels = machine.getLabels();
         labels.addLabel("f3",3);
         registers.set(EAX, 6);
         Instruction instruction = new JnzInstruction(null, EAX, "f3");
         int returnValue = instruction.execute(machine);
         Assertions.assertEquals(3, returnValue);
+    }
+
+    @Test
+    // static member variable NORMAL_PROGRAM_COUNTER_UPDATE is set to -1
+    // if no jump instruction then execute method returns -1
+    void testIfExecuteMethodReturnsNormalProgramCounterUpdateForRegisterWithValueZero(){
+        Labels labels = machine.getLabels();
+        labels.addLabel("f3",3);
+        registers.set(EAX, 0);
+        Instruction instruction = new JnzInstruction(null, EAX, "f3");
+        int returnValue = instruction.execute(machine);
+        Assertions.assertEquals(-1, returnValue);
+    }
+
+    @Test
+    void countTheTotalNumberOfInstructionsInJumpProgram() throws IOException {
+        System.out.println();
     }
 
 
