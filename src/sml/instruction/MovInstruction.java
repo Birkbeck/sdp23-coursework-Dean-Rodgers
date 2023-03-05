@@ -45,18 +45,15 @@ public class MovInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return "MovInstruction{" +
-                "result=" + result +
-                ", value=" + value +
-                '}';
+        return getLabelString() + getOpcode() + " " + result + " " + value;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MovInstruction that = (MovInstruction) o;
-        return Objects.equals(result, that.result) && Objects.equals(value, that.value);
+        if (!(o instanceof MovInstruction other)) return false;
+        return Objects.equals(result, other.result) && Objects.equals(value, other.value);
     }
 
     @Override
