@@ -46,4 +46,24 @@ class AddInstructionTest {
     Assertions.assertEquals(1, machine.getRegisters().get(EAX));
   }
 
+  @Test
+  void testToString(){
+    Instruction instruction = new AddInstruction("f1", EAX, EBX);
+    Assertions.assertEquals(instruction.toString(), "f1: add EAX EBX");
+  }
+
+  @Test
+  void testEqualsMethod() {
+    Instruction instruction1 = new AddInstruction(null, EAX, EBX);
+    Instruction instruction2 = new AddInstruction(null, EAX, EBX);
+    Assertions.assertTrue(instruction1.equals(instruction2));
+  }
+
+  @Test
+  void testEqualsMethodTwo() {
+    Instruction instruction1 = new AddInstruction(null, EAX, EBX);
+    Instruction instruction2 = new AddInstruction(null, ECX, EBX);
+    Assertions.assertFalse(instruction1.equals(instruction2));
+  }
+
 }
