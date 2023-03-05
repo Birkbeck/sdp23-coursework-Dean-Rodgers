@@ -18,8 +18,8 @@ public class MulInstruction extends Instruction {
     public static final String OP_CODE = "mul";
 
     /**
-     * Creates a new MulInstruction.
-     The line in the program for this instruction is: labal (optional) opcode (mul) register (result) register (source)
+     * Constructor: creates a new MulInstruction.
+     * The line in the program for this instruction is: labal (optional) opcode (mul) register (result) register (source)
      * </p>
      * @param label creates a name for the program. This is an optional parameter.
      * @param result creates operand for a register. Name of the register to store result
@@ -32,7 +32,8 @@ public class MulInstruction extends Instruction {
     }
 
     /**
-     * Executes the subtraction arithmetic operation. Stores the result of this operation in the given register.
+     * Executes the multiplication arithmetic operation. Multiples value stored in <i>result<i/> with
+     * value stored in <i>source</i>. Stores the result of this operation in register <i>result<i/>.
      * </p>
      * @param m the machine i.e. the context where the instruction is run.
      * @return resets NORMAL_PROGRAM_COUNTER_UPDATE after the instruction has executed.
