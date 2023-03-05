@@ -30,6 +30,26 @@ public class JnzInstructionTest {
     }
 
     @Test
+    void testToString(){
+        Instruction instruction = new JnzInstruction(null, EAX, "f8");
+        Assertions.assertEquals(instruction.toString(), "jnz EAX f8");
+    }
+
+    @Test
+    void testEquals(){
+        Instruction instruction1 = new JnzInstruction(null, EAX, "f8");
+        Instruction instruction2 = new JnzInstruction(null, EAX, "f8");
+        Assertions.assertTrue(instruction1.equals(instruction2));
+    }
+
+    @Test
+    void testEqualsTwo(){
+        Instruction instruction1 = new JnzInstruction(null, EAX, "f8");
+        Instruction instruction2 = new JnzInstruction("f8", EAX, "f7");
+        Assertions.assertFalse(instruction1.equals(instruction2));
+    }
+
+    @Test
     void returnCorrectJumpInstructionNumber() {
         Labels labels = machine.getLabels();
         labels.addLabel("f3",3);
