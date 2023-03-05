@@ -8,8 +8,7 @@ import sml.Instruction;
 import sml.Machine;
 import sml.Registers;
 
-import static sml.Registers.Register.EAX;
-import static sml.Registers.Register.EBX;
+import static sml.Registers.Register.*;
 
 public class SubInstructionTest {
     private Machine machine;
@@ -44,6 +43,26 @@ public class SubInstructionTest {
         Instruction instruction = new SubInstruction(null, EAX, EBX);
         instruction.execute(machine);
         Assertions.assertEquals(-1, machine.getRegisters().get(EAX));
+    }
+
+    @Test
+    void testToString(){
+        Instruction instruction = new SubInstruction("f1", EAX, EBX);
+        Assertions.assertEquals(instruction.toString(), "f1: sub EAX EBX");
+    }
+
+    @Test
+    void testEqualsMethod() {
+        Instruction instruction1 = new SubInstruction(null, EAX, EBX);
+        Instruction instruction2 = new SubInstruction(null, EAX, EBX);
+        Assertions.assertTrue(instruction1.equals(instruction2));
+    }
+
+    @Test
+    void testEqualsMethodTwo() {
+        Instruction instruction1 = new SubInstruction(null, EAX, EBX);
+        Instruction instruction2 = new SubInstruction(null, ECX, EBX);
+        Assertions.assertFalse(instruction1.equals(instruction2));
     }
 
 

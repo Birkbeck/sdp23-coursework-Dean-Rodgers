@@ -57,8 +57,8 @@ public class SubInstruction extends Instruction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubInstruction that = (SubInstruction) o;
-        return Objects.equals(result, that.result) && Objects.equals(source, that.source);
+        if (!(o instanceof SubInstruction other)) return false;
+        return Objects.equals(result, other.result) && Objects.equals(source, other.source);
     }
 
     @Override
