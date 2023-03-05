@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Representation of the addition instruction for SML.
  * <p>
- * In this instruction the OP_CODE is represented by "add".
+ * Add two integers and store result in specified register.
  */
 public class AddInstruction extends Instruction {
 	private final RegisterName result;
