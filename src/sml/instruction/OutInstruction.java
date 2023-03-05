@@ -36,7 +36,7 @@ public class OutInstruction extends Instruction {
      */
     @Override
     public int execute(Machine m) {
-        int value = m.getRegisters().get(source);
+        long value = m.getRegisters().get(source);
         System.out.println(value);
         return NORMAL_PROGRAM_COUNTER_UPDATE;
     }

@@ -53,7 +53,7 @@ public class JnzInstructionTest {
 
     @Test
     // expected number of instructions executed in the .sml file is 22
-    // which calculates the factorial of six
+    // which calculates the factorial of 6
     void countTheTotalNumberOfInstructionsInJumpProgram()  {
         int totalNumberOfInstructionsExecuted = 0;
         try {
@@ -76,6 +76,33 @@ public class JnzInstructionTest {
         }
 
         Assertions.assertEquals(22, totalNumberOfInstructionsExecuted);
+    }
+
+    @Test
+        // expected number of instructions executed in the .sml file is 22
+        // which calculates the factorial of 15
+    void countTheTotalNumberOfInstructionsInJumpProgramTwo()  {
+        int totalNumberOfInstructionsExecuted = 0;
+        try {
+            Translator t = new Translator("test/data/factorial15.sml");
+            t.readAndTranslate(machine.getLabels(), machine.getProgram());
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        List<Instruction> program = machine.getProgram();
+        int programCounter = 0;
+        registers.clear();
+        while (programCounter < program.size()) {
+            Instruction ins = program.get(programCounter);
+            int programCounterUpdate = ins.execute(machine);
+            totalNumberOfInstructionsExecuted ++;
+            programCounter = (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE)
+                    ? programCounter + 1
+                    : programCounterUpdate;
+        }
+
+        Assertions.assertEquals(40, totalNumberOfInstructionsExecuted);
     }
 
 
