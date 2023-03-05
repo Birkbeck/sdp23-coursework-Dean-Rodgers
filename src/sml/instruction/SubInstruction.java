@@ -10,19 +10,18 @@ import java.util.Objects;
 /**
  * Representation of the subtraction arithmetic.
  * <p>
- * In this instruction the OP_CODE is represented by "sub".
+ * Subtracts two integers values and stores result in specified register.
  */
 public class SubInstruction extends Instruction {
-
     private final RegisterName result;
     private final RegisterName source;
 
     public static final String OP_CODE = "sub";
 
     /**
-     * Creates a new SubInstruction.
-     * label provides an optional name for the instruction. result and source are registers in the machine memory.
-     * In SML, the registers are represented as String variables.
+     * Constructor: creates a new SubInstruction.
+     * <i>label</i> provides an optional name for the instruction. <i></i>result and <i>source</i> are registers
+     * in the machine memory.
      * </p>
      * @param label creates a name for the arithmetic instruction. This is an optional parameter.
      * @param result creates operand for a register. Result of instruction of stored in this register.
@@ -35,7 +34,8 @@ public class SubInstruction extends Instruction {
     }
 
     /**
-     * Executes the subtraction arithmetic operation. Stores the result of this operation in the given register.
+     * Executes the subtraction operation. Subtracts <i>result</i> from <i>source</i>, and
+     * the result of this operation in <i>result</i> register.
      * </p>
      * @param m the machine i.e. the context where the instruction is run.
      * @return resets NORMAL_PROGRAM_COUNTER_UPDATE after the instruction has executed.
