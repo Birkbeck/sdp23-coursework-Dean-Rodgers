@@ -64,8 +64,8 @@ public class JnzInstruction extends Instruction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        JnzInstruction that = (JnzInstruction) o;
-        return Objects.equals(source, that.source) && Objects.equals(labelJump, that.labelJump);
+        if (!(o instanceof JnzInstruction other)) return false;
+        return Objects.equals(source, other.source) && Objects.equals(labelJump, other.labelJump);
     }
 
     @Override
