@@ -9,17 +9,16 @@ import java.util.Objects;
 /**
  * Representation of the move instruction.
  * </p>
- * Moves an integer to a specified register.
+ * Moves an integer value to a specified register.
  */
 public class MovInstruction extends Instruction {
-
     private final RegisterName result;
     private final Integer value;
 
     public static final String OP_CODE = "mov";
 
     /**
-     * Creates a new MovInstruction.
+     * Constructor: creates a new MovInstruction.
      * The line in the program for this instruction is: labal (optional) opcode (mov) register (result) value
      * </p>
      * @param label creates a name for the program. This is an optional parameter.
@@ -33,7 +32,7 @@ public class MovInstruction extends Instruction {
     }
 
     /**
-     * Executes the move instruction operation. Stores the result of this operation in the given register.
+     * Executes the move instruction operation. Stores <i>value<i/> in the given register <i>result</i>.
      * </p>
      * @param m the machine i.e. the context where the instruction is run.
      * @return resets NORMAL_PROGRAM_COUNTER_UPDATE after the instruction has executed.
