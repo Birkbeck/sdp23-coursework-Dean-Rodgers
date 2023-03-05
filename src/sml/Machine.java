@@ -38,6 +38,7 @@ public final class Machine {
 		registers.clear();
 		while (programCounter < program.size()) {
 			Instruction ins = program.get(programCounter);
+			System.out.println("this is the tostring method: " + ins.toString());
 			int programCounterUpdate = ins.execute(this);
 			programCounter = (programCounterUpdate == NORMAL_PROGRAM_COUNTER_UPDATE)
 				? programCounter + 1

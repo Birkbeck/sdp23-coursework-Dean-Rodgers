@@ -5,8 +5,9 @@ package sml;
 
 /**
  * Represents an abstract instruction.
- *
- * @author ...
+ *</p>
+ * The base class of all instructions. Every instruction in the SML has
+ * an optional <i>label</i> and an operation.
  */
 public abstract class Instruction {
 	protected final String label;
@@ -42,7 +43,6 @@ public abstract class Instruction {
 	 *          or NORMAL_PROGRAM_COUNTER_UPDATE to indicate that
 	 *          the instruction with the next address is to be executed
 	 */
-
 	public abstract int execute(Machine git);
 
 	protected String getLabelString() {
@@ -50,7 +50,7 @@ public abstract class Instruction {
 	}
 
 	// TODO: What does abstract in the declaration below mean?
-	// the abstract method below acts as a placeholder to be implemented in the subclasses
+	// the abstract method below acts as a placeholder to be implemented in all subclasses
 	@Override
 	public abstract String toString();
 

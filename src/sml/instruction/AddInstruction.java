@@ -7,9 +7,8 @@ import sml.RegisterName;
 import java.util.Objects;
 
 // TODO: write a JavaDoc for the class
-
 /**
- * Representation of the addition arithmetic for SML.
+ * Representation of the addition instruction for SML.
  * <p>
  * In this instruction the OP_CODE is represented by "add".
  */
@@ -20,12 +19,11 @@ public class AddInstruction extends Instruction {
 	public static final String OP_CODE = "add";
 
 	/**
-	 * Creates a new AddInstruction.
-	 * label provides an optional name for the instruction. result and source are registers in the machine memory.
-	 * In SML, the registers are represented as String variables.
+	 * Constructor: creates a new AddInstruction.
+	 * <i>label</i> provides an optional name for the instruction. <i>result</i> and <i>source</i> are registers names.
 	 * </p>
 	 * @param label creates a name for the arithmetic instruction. This is an optional parameter.
-	 * @param result creates operand for a register. Result of instruction of stored in this register.
+	 * @param result creates operand for a register. Result of instruction2 stored in this register.
 	 * @param source creates operand for a register.
 	 */
 	public AddInstruction(String label, RegisterName result, RegisterName source) {
@@ -35,7 +33,7 @@ public class AddInstruction extends Instruction {
 	}
 
 	/**
-	 * Executes the subtraction arithmetic operation. Stores the result of this operation in the given register.
+	 * Executes the addition instruction. Stores the result of this operation in the given register.
 	 * </p>
 	 * @param m the machine i.e. the context where the instruction is run.
 	 * @return resets NORMAL_PROGRAM_COUNTER_UPDATE after the instruction has executed.
@@ -57,8 +55,8 @@ public class AddInstruction extends Instruction {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		AddInstruction that = (AddInstruction) o;
-		return Objects.equals(result, that.result) && Objects.equals(source, that.source);
+		if (!(o instanceof AddInstruction other)) return false;
+		return Objects.equals(result, other.result) && Objects.equals(source, other.source);
 	}
 
 	@Override
