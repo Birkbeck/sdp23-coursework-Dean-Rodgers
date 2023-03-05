@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Representation of the out instruction.
  * </p>
- * Prints out the value in the specified register.
+ * Prints out to the console the value in the specified register.
  */
 public class OutInstruction extends Instruction {
     private final RegisterName source;
@@ -17,8 +17,8 @@ public class OutInstruction extends Instruction {
     public static final String OP_CODE = "out";
 
     /**
-     * Creates a new OutInstruction.
-     The line in the program for this instruction is: labal (optional) opcode (out) register (source)
+     * Constructor: creates a new OutInstruction.
+     * The line in the program for this instruction is: labal (optional) opcode (out) register (source)
      * </p>
      * @param label creates a name for the program. This is an optional parameter.
      * @param source creates operand for a register. Name of a register.
@@ -29,7 +29,8 @@ public class OutInstruction extends Instruction {
     }
 
     /**
-     * Executes the subtraction arithmetic operation. Stores the result of this operation in the given register.
+     * Executes the out operation. Retrieves the value stored in teh <i>source</i> register and
+     * prints out to console.
      * </p>
      * @param m the machine i.e. the context where the instruction is run.
      * @return resets NORMAL_PROGRAM_COUNTER_UPDATE after the instruction has executed.
