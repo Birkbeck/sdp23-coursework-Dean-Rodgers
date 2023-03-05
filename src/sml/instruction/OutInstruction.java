@@ -51,8 +51,8 @@ public class OutInstruction extends Instruction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OutInstruction that = (OutInstruction) o;
-        return Objects.equals(source, that.source);
+        if (!(o instanceof OutInstruction other)) return false;
+        return Objects.equals(source, other.source);
     }
 
     @Override
