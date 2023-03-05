@@ -55,8 +55,8 @@ public class MulInstruction extends Instruction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MulInstruction that = (MulInstruction) o;
-        return Objects.equals(result, that.result) && Objects.equals(source, that.source);
+        if (!(o instanceof MulInstruction other)) return false;
+        return Objects.equals(result, other.result) && Objects.equals(source, other.source);
     }
 
     @Override
