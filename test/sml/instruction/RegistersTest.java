@@ -8,7 +8,6 @@ import sml.Machine;
 import sml.Registers;
 import sml.Translator;
 
-import javax.crypto.Mac;
 
 import java.io.IOException;
 
@@ -16,7 +15,6 @@ import static sml.Registers.Register.*;
 
 public class RegistersTest {
     private Registers registers;
-
 
     @BeforeEach
     void setUp() {
@@ -47,13 +45,24 @@ public class RegistersTest {
     }
 
     @Test
-    void testSetRegister() {
+    void testSetRegisters() {
         registers.set(ESI, 701);
         Assertions.assertTrue(701 == registers.get(ESI));
     }
 
-
-
-
-
+    @Test
+    public void testSetRegistersTwo() {
+        int[] regTestArray = {1,2,3,4,5,6,7,8};
+        int arrayPositionCounter = 0;
+        for(Registers.Register reg: Registers.Register.values()){
+            registers.set(reg, regTestArray[arrayPositionCounter]);
+            arrayPositionCounter++;
+        }
+        int actualOutcome = 0;
+        for(Registers.Register reg: Registers.Register.values()){
+            actualOutcome += registers.get(reg);
+        }
+        // 36 is the sum regTestArray
+        Assertions.assertEquals(36,actualOutcome);
+    }
 }
