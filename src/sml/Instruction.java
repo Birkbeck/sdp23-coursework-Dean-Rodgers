@@ -25,10 +25,16 @@ public abstract class Instruction {
 		this.opcode = opcode;
 	}
 
+	/**
+	 * @return the label of the instruction
+	 */
 	public String getLabel() {
 		return label;
 	}
 
+	/**
+	 * @return the opcode of the instruction
+	 */
 	public String getOpcode() {
 		return opcode;
 	}
