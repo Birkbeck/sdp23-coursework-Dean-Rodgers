@@ -24,6 +24,11 @@ public final class Machine {
 	// of the next instruction to be executed.
 	private int programCounter = 0;
 
+
+	/**
+	 * Constructor: creates a Machine
+	 * @param registers storage locations for the machine
+	 */
 	public Machine(Registers registers) {
 		this.registers = registers;
 	}
@@ -44,14 +49,23 @@ public final class Machine {
 		}
 	}
 
+	/**
+	 * @return Labels
+	 */
 	public Labels getLabels() {
 		return this.labels;
 	}
 
+	/**
+	 * @return list of <i>Instruction</i> from the programme
+	 */
 	public List<Instruction> getProgram() {
 		return this.program;
 	}
 
+	/**
+	 * @return Registers
+	 */
 	public Registers getRegisters() {
 		return this.registers;
 	}

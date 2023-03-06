@@ -11,11 +11,10 @@ import java.util.Scanner;
 import static sml.Registers.Register;
 
 /**
- * This class ....
+ * This class translates a sml file into List of <i>Instruction</i> and Map of <i>Labels</i> so that a <i>Machine</i> can
+ * execute each <i>Instruction</i>
  * <p>
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
- *
- * @author ...
  */
 public final class Translator {
 
@@ -24,6 +23,10 @@ public final class Translator {
     // line contains the characters in the current line that's not been processed yet
     private String line = "";
 
+    /**
+     * Constructor: creates a Translator object
+     * @param fileName the filename of the sml file. A command line argument args[0] is passed here.
+     */
     public Translator(String fileName) {
         this.fileName =  fileName;
     }
@@ -31,7 +34,13 @@ public final class Translator {
     // translate the small program in the file into lab (the labels) and
     // prog (the program)
     // return "no errors were detected"
-
+    /**
+     * Translate the small program in the file found in the command line argument into the labels and programme.
+     * </p>
+     * @param labels pass getLabels() method found in the Machine class to create an empty of Map to store label and its address
+     * @param program pass getProgram() method found in the Machine class to create empty of List<Instruction>
+     * @throws IOException when programme file read error
+     */
     public void readAndTranslate(Labels labels, List<Instruction> program) throws IOException {
         try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
             labels.reset();
@@ -54,7 +63,7 @@ public final class Translator {
 
     /**
      * Translates the current line into an instruction with the given label
-     *
+     * </p>
      * @param label the instruction label
      * @return the new instruction
      * <p>
@@ -116,7 +125,10 @@ public final class Translator {
         return null;
     }
 
-
+    /**
+     * Method calls the scan() method to return a word in a programme line
+     * @return label if found in a programme line, else null if no label found
+     */
     private String getLabel() {
         String word = scan();
         if (word.endsWith(":"))
@@ -130,6 +142,11 @@ public final class Translator {
     /*
      * Return the first word of line and remove it from line.
      * If there is no word, return "".
+     */
+
+    /**
+     * Scans a programme line to isolate each word found in the line.
+     * @return the first word of line and remove it from line, if there is no word, return ""
      */
     private String scan() {
         line = line.trim();

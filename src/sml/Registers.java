@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 // TODO: write a JavaDoc for the class
 
 /**
- * Represents the register of a given machine.
+ * This class represents the registers of a given machine.
  * </p>
- * In SML, there are eight registers.
+ * The registers are implemented using Enum
  */
 public final class Registers {
     private final Map<Register, Integer> registers = new HashMap<>();
@@ -17,10 +17,17 @@ public final class Registers {
         EAX, EBX, ECX, EDX, ESP, EBP, ESI, EDI;
     }
 
+
+    /**
+     * Constructor: creates a Registers and calls the clear method to ensure registers have zero values.
+     */
     public Registers() {
         clear(); // the class is final
     }
 
+    /**
+     * Clears all the registers by putting zero in each one.
+     */
     public void clear() {
         for (Register register : Register.values())
             registers.put(register, 0);
