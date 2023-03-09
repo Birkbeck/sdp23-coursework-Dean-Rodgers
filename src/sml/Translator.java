@@ -5,11 +5,15 @@ import sml.instruction.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import static sml.Registers.Register;
+import static sml.Registers.Register.EAX;
+import static sml.Registers.Register.EBX;
 
 /**
  * This class translates a sml file into List of <i>Instruction</i> and Map of <i>Labels</i> so that a <i>Machine</i> can
@@ -62,6 +66,27 @@ public final class Translator {
         }
     }
 
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_WRAPPERS = Map.of(
+            int.class, Integer.class,
+            long.class, Long.class,
+            boolean.class, Boolean.class,
+            byte.class, Byte.class,
+            char.class, Character.class,
+            float.class, Float.class,
+            double.class, Double.class,
+            short.class, Short.class,
+            void.class, Void.class);
+
+    /**
+     * Return the correct Wrapper class if testClass is primitive
+     *
+     * @param testClass class being tested
+     * @return Object class or testClass
+     */
+    private static Class<?> toWrapper(Class<?> testClass) {
+        return PRIMITIVE_TYPE_WRAPPERS.getOrDefault(testClass, testClass);
+    }
+
     /**
      * Translates the current line into an instruction with the given label
      * </p>
@@ -77,25 +102,44 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        char firstChar = opcode.charAt(0);
-        firstChar = Character.toUpperCase(firstChar);
-        StringBuffer buffer = new StringBuffer(opcode);
-        buffer.setCharAt(0,firstChar);
-        String className = "sml.instruction." + buffer + "Instruction";
+        String className = getInstructionClassName(opcode);
 
         try {
             Class<?> c = Class.forName(className);
-            System.out.println("this is class name: " + c.getName());
-            Constructor[] constructors = c.getConstructors();
-            Constructor constr = constructors[0];
+            System.out.println(c.getName());
+            Constructor<?> constr = c.getConstructor();
             Class<?>[] paramCons = constr.getParameterTypes();
+            Object[] parameterObjs = new Object[paramCons.length];
 
-            for(Constructor<?> con: constructors) {
-                System.out.println(con.getName());
+            for(int i = 0; i < parameterObjs.length; i++) {
+                if (i==0) {
+                    parameterObjs[i] = label;
+                } else {
+                    Class<?> c1 = toWrapper(paramCons[i]);
+
+                    if (c1 == Integer.class) {
+                        String value = scan();
+                        parameterObjs[i] = Integer.valueOf(value);
+                    } else {
+                        String parm = scan();
+                        parameterObjs[i] = parm;
+                    }
+                }
             }
+            return (Instruction) constr.newInstance(parameterObjs);
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
+
 
 //        switch (opcode) {
 //            case AddInstruction.OP_CODE -> {
@@ -181,5 +225,14 @@ public final class Translator {
             }
 
         return line;
+    }
+
+    private String getInstructionClassName(String opcode){
+        char firstChar = opcode.charAt(0);
+        firstChar = Character.toUpperCase(firstChar);
+        StringBuilder sb = new StringBuilder(opcode);
+        sb.setCharAt(0,firstChar);
+        String className = "sml.instruction." + sb + "Instruction";
+        return className;
     }
 }
