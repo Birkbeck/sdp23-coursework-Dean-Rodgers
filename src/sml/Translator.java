@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -66,27 +67,6 @@ public final class Translator {
         }
     }
 
-    private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_WRAPPERS = Map.of(
-            int.class, Integer.class,
-            long.class, Long.class,
-            boolean.class, Boolean.class,
-            byte.class, Byte.class,
-            char.class, Character.class,
-            float.class, Float.class,
-            double.class, Double.class,
-            short.class, Short.class,
-            void.class, Void.class);
-
-    /**
-     * Return the correct Wrapper class if testClass is primitive
-     *
-     * @param testClass class being tested
-     * @return Object class or testClass
-     */
-    private static Class<?> toWrapper(Class<?> testClass) {
-        return PRIMITIVE_TYPE_WRAPPERS.getOrDefault(testClass, testClass);
-    }
-
     /**
      * Translates the current line into an instruction with the given label
      * </p>
@@ -96,7 +76,7 @@ public final class Translator {
      * The input line should consist of a single SML instruction,
      * with its label already removed.
      */
-    private Instruction getInstruction(String label) {
+    private Instruction getInstruction(String label)  {
 
         if (line.isEmpty())
             return null;
@@ -105,78 +85,42 @@ public final class Translator {
         String className = getInstructionClassName(opcode);
 
         try {
-            Class<?> c = Class.forName(className);
-            System.out.println(c.getName());
-            Constructor<?> constr = c.getConstructor();
-            Class<?>[] paramCons = constr.getParameterTypes();
-            Object[] parameterObjs = new Object[paramCons.length];
+            for(Constructor<?> constr : Class.forName(className).getConstructors()) {
+                try {
+                    Class<?>[] paramCons = constr.getParameterTypes();
+                    Object[] parameterObjs = new Object[paramCons.length];
+                    for(int i = 0; i < parameterObjs.length; i++) {
+                        if (i == 0) {
+                            parameterObjs[i] = label;
+                        }
+                        else if (paramCons[i] == RegisterName.class) {
+                            String parm = scan();
+                            parameterObjs[i] = Register.valueOf(parm);
 
-            for(int i = 0; i < parameterObjs.length; i++) {
-                if (i==0) {
-                    parameterObjs[i] = label;
-                } else {
-                    Class<?> c1 = toWrapper(paramCons[i]);
+                        }
+                        else if (paramCons[i] == Integer.class) {
+                            String parm = scan();
+                            parameterObjs[i] = Integer.valueOf(parm);
 
-                    if (c1 == Integer.class) {
-                        String value = scan();
-                        parameterObjs[i] = Integer.valueOf(value);
-                    } else {
-                        String parm = scan();
-                        parameterObjs[i] = parm;
+                        } else {
+                            String parm = scan();
+                            parameterObjs[i] = parm;
+                        }
                     }
+                    return (Instruction) constr.newInstance(parameterObjs);
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
-            return (Instruction) constr.newInstance(parameterObjs);
-
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
 
 
-//        switch (opcode) {
-//            case AddInstruction.OP_CODE -> {
-//                String r = scan();
-//                String s = scan();
-//                return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
-//            }
-//            case SubInstruction.OP_CODE -> {
-//                String r = scan();
-//                String s = scan();
-//                return new SubInstruction(label, Register.valueOf(r), Register.valueOf(s));
-//            }
-//            case MulInstruction.OP_CODE -> {
-//                String r = scan();
-//                String s = scan();
-//                return new MulInstruction(label, Register.valueOf(r), Register.valueOf(s));
-//            }
-//            case DivInstruction.OP_CODE -> {
-//                String r = scan();
-//                String s = scan();
-//                return new DivInstruction(label, Register.valueOf(r), Register.valueOf(s));
-//            }
-//            case MovInstruction.OP_CODE -> {
-//                String r = scan();
-//                String value = scan();
-//                return new MovInstruction(label, Register.valueOf(r), Integer.valueOf(value));
-//            }
-//            case OutInstruction.OP_CODE -> {
-//                String s = scan();
-//                return new OutInstruction(label, Register.valueOf(s));
-//            }
-//            case JnzInstruction.OP_CODE -> {
-//                String s = scan();
-//                String jumpLabel = scan();
-//                return new JnzInstruction(label, Register.valueOf(s), jumpLabel);
-//            }
-//
 //            // TODO: add code for all other types of instructions
 //
 //            // TODO: Then, replace the switch by using the Reflection API
