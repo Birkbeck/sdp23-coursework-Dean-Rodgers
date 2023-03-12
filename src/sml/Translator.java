@@ -116,7 +116,6 @@ public final class Translator {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-,
         return null;
     }
 
