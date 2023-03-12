@@ -67,6 +67,9 @@ public final class Translator {
         }
     }
 
+
+
+
     /**
      * Translates the current line into an instruction with the given label
      * </p>
@@ -76,7 +79,7 @@ public final class Translator {
      * The input line should consist of a single SML instruction,
      * with its label already removed.
      */
-    private Instruction getInstruction(String label)  {
+    private Instruction getInstruction(String label)    {
 
         if (line.isEmpty())
             return null;
@@ -89,22 +92,14 @@ public final class Translator {
                 try {
                     Class<?>[] paramCons = constr.getParameterTypes();
                     Object[] parameterObjs = new Object[paramCons.length];
-                    for(int i = 0; i < parameterObjs.length; i++) {
-                        if (i == 0) {
-                            parameterObjs[i] = label;
-                        }
-                        else if (paramCons[i] == RegisterName.class) {
-                            String parm = scan();
+                    parameterObjs[0] = label;
+                    for(int i = 1; i < parameterObjs.length; i++) {
+                        Class<?> c = toWrapper(paramCons[i]);
+                        String parm = scan();
+                        if (c == RegisterName.class) {
                             parameterObjs[i] = Register.valueOf(parm);
-
-                        }
-                        else if (paramCons[i] == Integer.class) {
-                            String parm = scan();
-                            parameterObjs[i] = Integer.valueOf(parm);
-
                         } else {
-                            String parm = scan();
-                            parameterObjs[i] = parm;
+                            parameterObjs[i] = c.getConstructor(String.class).newInstance(parm);
                         }
                     }
                     return (Instruction) constr.newInstance(parameterObjs);
@@ -114,24 +109,15 @@ public final class Translator {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-
-//            // TODO: add code for all other types of instructions
-//
-//            // TODO: Then, replace the switch by using the Reflection API
-//
-//            // TODO: Next, use dependency injection to allow this machine class
-//            //       to work with different sets of opcodes (different CPUs)
-//
-//            default -> {
-//                System.out.println("Unknown instruction: " + opcode);
-//            }
-//        }
+//  TODO: Next, use dependency injection to allow this machine class to work with different sets of opcodes (different CPUs)
         return null;
     }
 
@@ -172,11 +158,27 @@ public final class Translator {
     }
 
     private String getInstructionClassName(String opcode){
-        char firstChar = opcode.charAt(0);
-        firstChar = Character.toUpperCase(firstChar);
-        StringBuilder sb = new StringBuilder(opcode);
-        sb.setCharAt(0,firstChar);
-        String className = "sml.instruction." + sb + "Instruction";
-        return className;
+        return "sml.instruction." + opcode.substring(0,1).toUpperCase() + opcode.substring(1) + "Instruction";
+    }
+
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_WRAPPERS = Map.of(
+            int.class, Integer.class,
+            long.class, Long.class,
+            boolean.class, Boolean.class,
+            byte.class, Byte.class,
+            char.class, Character.class,
+            float.class, Float.class,
+            double.class, Double.class,
+            short.class, Short.class,
+            void.class, Void.class);
+
+    /**
+     * Return the correct Wrapper class if testClass is primitive
+     *
+     * @param testClass class being tested
+     * @return Object class or testClass
+     */
+    private static Class<?> toWrapper(Class<?> testClass) {
+        return PRIMITIVE_TYPE_WRAPPERS.getOrDefault(testClass, testClass);
     }
 }
