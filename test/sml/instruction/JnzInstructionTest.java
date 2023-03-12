@@ -104,7 +104,7 @@ public class JnzInstructionTest {
     void countTheTotalNumberOfInstructionsInJumpProgramTwo()  {
         int totalNumberOfInstructionsExecuted = 0;
         try {
-            Translator t = new Translator("test/data/factorial15.sml");
+            Translator t = new Translator("test/data/factorial12.sml");
             t.readAndTranslate(machine.getLabels(), machine.getProgram());
         } catch (IOException e) {
             System.out.println(e);

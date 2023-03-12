@@ -116,8 +116,7 @@ public final class Translator {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-//  TODO: Next, use dependency injection to allow this machine class to work with different sets of opcodes (different CPUs)
+,
         return null;
     }
 
