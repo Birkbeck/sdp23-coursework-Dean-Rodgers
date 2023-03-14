@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static sml.Registers.Register;
 import static sml.Registers.Register.EAX;
@@ -70,6 +67,8 @@ public final class Translator {
 
 
 
+
+
     /**
      * Translates the current line into an instruction with the given label
      * </p>
@@ -102,7 +101,8 @@ public final class Translator {
                             parameterObjs[i] = c.getConstructor(String.class).newInstance(parm);
                         }
                     }
-                    return (Instruction) constr.newInstance(parameterObjs);
+
+                    return InstructionFactory.getInstance().getInstruction(className, parameterObjs);
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 } catch (InstantiationException e) {
