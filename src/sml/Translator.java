@@ -78,7 +78,7 @@ public final class Translator {
      * The input line should consist of a single SML instruction,
      * with its label already removed.
      */
-    private Instruction getInstruction(String label)    {
+    private Instruction getInstruction(String label) {
 
         if (line.isEmpty())
             return null;
@@ -114,7 +114,8 @@ public final class Translator {
                 }
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("No such instruction: " + className + ". Check input file.");
+
         }
         return null;
     }
